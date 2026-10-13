@@ -1,4 +1,4 @@
-
+```yaml
 name: Classroom CI-CD Demo 2026
 
 on:
@@ -17,3 +17,23 @@ jobs:
           echo "=== STARTING BUILD STAGE ==="
           echo "Installing application dependencies..."
           echo "Build finished successfully!"
+
+  test_stage:
+    runs-on: ubuntu-latest
+    needs: build_stage
+    steps:
+      - name: Simulate Tests
+        run: |
+          echo "=== STARTING TEST STAGE ==="
+          python -c "print('All tests passed successfully!')"
+
+  deploy_stage:
+    runs-on: ubuntu-latest
+    needs: test_stage
+    steps:
+      - name: Simulate Deployment
+        run: |
+          echo "=== STARTING DEPLOY STAGE ==="
+          echo "Deploying application to staging..."
+          echo "Deployment finished successfully!"
+```
