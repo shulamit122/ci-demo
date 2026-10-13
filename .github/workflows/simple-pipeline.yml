@@ -35,4 +35,3 @@ jobs:
           echo "=== STARTING DEPLOY STAGE ==="
           echo "Deploying application to staging..."
           echo "Deployment finished successfully!"
-```
