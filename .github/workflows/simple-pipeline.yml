@@ -52,3 +52,29 @@ jobs:
           echo "=== STARTING DEPLOY STAGE ==="
           echo "Deploying application to staging..."
           echo "Deployment finished successfully!"
+
+  publish_stage:
+    runs-on: ubuntu-latest
+    needs: test_stage
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ vars.DOCKERHUB_USERNAME }}/classroom-api:latest
+            ${{ vars.DOCKERHUB_USERNAME }}/classroom-api:${{ github.sha }}
+
